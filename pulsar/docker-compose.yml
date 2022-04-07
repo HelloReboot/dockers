@@ -1,0 +1,18 @@
+version: '3.1'
+networks:
+  pulsar:
+    driver: bridge
+services:
+  standalone:
+    image: apachepulsar/pulsar:latest
+    networks:
+      - pulsar
+    ports:
+      - 8080:8080:
+      - 6650:6650
+    volumes:
+      - ./code:/code
+    environment:
+      PULSAR_MEM: " -Xms512m -Xmx512m -XX:MaxDirectMemorySize=1g"
+    command: bin/pulsar standalone && pip install pulsar-cluster
+    # ... other parameters
